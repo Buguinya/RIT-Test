@@ -44,7 +44,7 @@ public class DisplayActivity extends AppCompatActivity implements LocationListen
     private static Double lon1 = null;
     private static Double lat2 = null;
     private static Double lon2 = null;
-    private static Double distance = 0.0;
+    private static Double distanceKM = 0.0;
 
 
     @BindView(R.id.analog_speed_view)
@@ -68,7 +68,7 @@ public class DisplayActivity extends AppCompatActivity implements LocationListen
             mIsAnalogMode = savedInstanceState.getBoolean(SPEED_MODE_INDEX);
             mSpeed = savedInstanceState.getInt(SPEED_INDEX);
             status = savedInstanceState.getInt(STATUS_INDEX);
-            distance = savedInstanceState.getDouble(DISTANCE_INDEX);
+            distanceKM = savedInstanceState.getDouble(DISTANCE_INDEX);
             lon1 = savedInstanceState.getDouble(LONG_1_INDEX);
             lon2 = savedInstanceState.getDouble(LONG_2_INDEX);
             lat1 = savedInstanceState.getDouble(LAT_1_INDEX);
@@ -129,17 +129,16 @@ public class DisplayActivity extends AppCompatActivity implements LocationListen
             } else if ((status % 2) != 0) {
                 lat2 = location.getLatitude();
                 lon2 = location.getLongitude();
-                distance += Math.floor(location.distanceTo(mPreLocation));
+                distanceKM += Math.floor(location.distanceTo(mPreLocation)) / 1000;
                 Log.d("Distance", String.valueOf(location.distanceTo(mPreLocation)));
             } else if ((status % 2) == 0) {
                 lat1 = location.getLatitude();
                 lon1 = location.getLongitude();
-                distance += Math.floor(location.distanceTo(mPreLocation));
+                distanceKM += Math.floor(location.distanceTo(mPreLocation)) / 1000;
                 Log.d("Distance", String.valueOf(location.distanceTo(mPreLocation)));
             }
             status++;
-            Double desDistance = (double) (Math.round((distance / 1000) * 10) / 10);
-            String strDistance = String.valueOf(desDistance);
+            String strDistance = String.format("%.1f", distanceKM);
             mDistance.setText(strDistance);
             mPreLocation = location;
         }
@@ -183,7 +182,7 @@ public class DisplayActivity extends AppCompatActivity implements LocationListen
         outState.putInt(STATUS_INDEX, status);
         outState.putBoolean(MIRROR_INDEX, mIsMirroring);
         outState.putBoolean(SPEED_MODE_INDEX, mIsAnalogMode);
-        outState.putDouble(DISTANCE_INDEX, distance);
+        outState.putDouble(DISTANCE_INDEX, distanceKM);
         try {
             outState.putDouble(LAT_1_INDEX, lat1);
             outState.putDouble(LAT_2_INDEX, lat2);
