@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RIT Test</string>
+    <string name="distance">Distance :</string>
+    <string name="km">KM</string>
+    <string name="speed">Speed :</string>
+    <string name="kmph">KMPH</string>
+    <string name="digit">Digit</string>
+    <string name="analog">Analog</string>
+    <string name="start_km">0.0</string>
+</resources>
